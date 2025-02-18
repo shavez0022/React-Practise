@@ -2,17 +2,12 @@
 import './form.css';
 import Select from 'react-select';
 import axios from 'axios';
-
-
-
 const Form = () => {
         const Submit =(e)=>{
         e.preventDefault();
-
         document.querySelector(".loader").style.display = "block"; 
         document.getElementById("myformid").style.display = "none";
         document.querySelector(".loader-text").textContent = "Processing......";
-      
         const formData = new FormData(document.getElementById("myformid"));
         axios.post('http://localhost/ajax/api/insertApi.php', formData)
         .then(response => {
