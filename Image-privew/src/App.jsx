@@ -7,15 +7,7 @@ function App() {
 
   return (
     <>
-      {/* <div className="full" style={{backgroundColor: color, height: '100vh',position: 'relative' ,width:'100%'}}>
-        <div className='btn' style={{position: 'absolute', bottom: '70px', width: '100%', display: 'flex', justifyContent: 'center', gap: '10px' }}>
-        <button style={{backgroundColor: 'red'}}  onClick={()=>setColor('red')}>red</button>
-        <button style={{backgroundColor: 'blue'}}  onClick={()=>setColor('blue')}>blue</button>
-        <button style={{backgroundColor: 'green'}}  onClick={()=>setColor('green')}>green</button>
-        <button style={{backgroundColor: 'pink'}}  onClick={()=>setColor('pink')}>pink</button>
-        <button style={{backgroundColor: 'black', color:'white'}}  onClick={()=>setColor('black')}>black</button>
-        </div>
-      </div> */}
+      
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '20px', padding: '20px', backgroundColor: '#f4f4f4', minHeight: '100vh' }}>
       
  
