@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
- 
-  // Retrieve the stored image from localStorage or use the default image
   const [image, setImage] = useState(() => {
     const imagePreview = localStorage.getItem("image");
     return imagePreview ? JSON.parse(imagePreview) : 
@@ -79,8 +77,7 @@ function App() {
               onClick={() => {
                 change();
                 setImage("https://images.pexels.com/photos/30491755/pexels-photo-30491755/free-photo-of-majestic-green-mountain-ridge-in-martinique.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load");
-                
-              }}
+                }}
             />
           </div>
 
