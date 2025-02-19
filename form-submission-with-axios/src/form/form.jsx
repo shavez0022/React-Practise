@@ -2,34 +2,79 @@
 import "./form.css";
 import Select from "react-select";
 import axios from "axios";
+import { useState } from "react";
+
 const Form = () => {
+  const [errorName, setErrorName] = useState("");
+  const [errors, setErrors] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
+  const [errorEmail, setErrorEmail] = useState("");
+
+  const closeAlert = () => {
+    setIsVisible(false);
+  };
+
+  const nameValidate = (value) => {
+    const isAlphabetsOnly = /^[A-Za-z]+( [A-Za-z]+)*$/.test(value);
+    if (!isAlphabetsOnly) {
+      setErrorName("Name should contain only alphabets");
+      setErrors("there were error");
+    } else {
+      setErrorName("");
+      setIsVisible(false);
+    }
+  };
+
+  const emailValidate = (value) => {
+    if (value === "" || !value.includes("@") || !value.includes(".")) {
+      setErrorEmail("Please enter a valid email address.");
+      setErrors("there were errors");
+    } else {
+      setErrorEmail("");
+      setIsVisible(false);
+    }
+  };
+
   const Submit = (e) => {
     e.preventDefault();
-    document.querySelector(".loader").style.display = "block";
-    document.getElementById("myformid").style.display = "none";
-    document.querySelector(".loader-text").textContent = "Processing......";
-    const formData = new FormData(document.getElementById("myformid"));
-    axios
-      .post("http://localhost/ajax/api/insertApi.php", formData)
-      .then((response) => {
-        document.querySelector(".loader").style.display = "none";
-        document.getElementById("myformid").style.display = "block";
-        document.querySelector(".loader-text").textContent =
-          "Registration Form";
+    if (errors === "") {
+      document.querySelector(".loader").style.display = "block";
+      document.getElementById("myformid").style.display = "none";
+      document.querySelector(".loader-text").textContent = "Processing......";
+      const formData = new FormData(document.getElementById("myformid"));
+      axios
+        .post("http://localhost/ajax/api/insertApi.php", formData)
+        .then((response) => {
+          document.querySelector(".loader").style.display = "none";
+          document.getElementById("myformid").style.display = "block";
+          document.querySelector(".loader-text").textContent =
+            "Registration Form";
 
-        if (response.data.status === "success") {
-          document.getElementById("myformid").reset();
-          console.log("API Response:", response.data);
-        } else {
-          console.log("API Response:", response.data);
-        }
-      });
+          if (response.data.status === "success") {
+            document.getElementById("myformid").reset();
+            console.log("API Response:", response.data);
+          } else {
+            console.log("API Response:", response.data);
+          }
+        });
+    } else {
+      setIsVisible(true);
+      console.log("form stopped due toname validation");
+    }
   };
   return (
     <>
       <div className="form-container">
         <center>
           <div className="loader"></div>
+          {isVisible && (
+            <div id="alert" className="alert">
+              {errors}
+              <span className="closebtn" onClick={closeAlert}>
+                &times;
+              </span>
+            </div>
+          )}
           <h2 className="loader-text">Registration Form</h2>
         </center>
         <form
@@ -51,7 +96,9 @@ const Form = () => {
               name="name"
               placeholder="Enter your name"
               required
+              onKeyUp={(e) => nameValidate(e.target.value)}
             />
+            <div className="Required">{errorName}</div>
           </div>
           <div className="form-group">
             <label htmlFor="email">
@@ -63,7 +110,9 @@ const Form = () => {
               name="email"
               placeholder="Enter your email"
               required
+              onKeyUp={(e) => emailValidate(e.target.value)}
             />
+            <div className="Required">{errorEmail}</div>
           </div>
           <div className="form-group">
             <label>
