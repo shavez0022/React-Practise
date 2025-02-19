@@ -4,32 +4,121 @@ import Select from "react-select";
 import axios from "axios";
 import { useState } from "react";
 
+let i =1;
 const Form = () => {
+  const Educationtable= () => {
+    return (
+    <>
+    <tbody>
+                  <tr>
+                    <td>
+                      <select name="standard[]" required>
+                        <option value="High-School">High-School</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Graduation">Graduation</option>
+                        <option value="Postgraduate">Postgraduate</option>
+                        <option value="Diploma">Diploma</option>
+                        <option value="Phd">PhD</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name="college[]"
+                        placeholder="Enter College"
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        max="100"
+                        min="0"
+                        name="percentage[]"
+                        placeholder="Enter Percentage"
+                        required
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="year[]"
+                        min="1900"
+                        max="2100"
+                        placeholder="Enter Passout Year"
+                        required
+                      />
+                    </td>
+                    <td>
+  {education.length > 1 && (
+    <button
+      type="button"
+      value={i}
+      className="delete-btn"
+      onClick={(e) => removeRow(e.target.value)}
+    >
+      Delete
+    </button>
+  )}
+</td>
+                  </tr>
+                </tbody>
+    </>
+  );
+  }
+  // () => removeRow(i)
   const [errorName, setErrorName] = useState("");
   const [errors, setErrors] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [errorEmail, setErrorEmail] = useState("");
+  const [isVisibleloader, setIsVisibleloader] = useState(false);
+  const [education, setEducation] = useState([<Educationtable key={i}/>]); // Initialize with one row
 
+  function Addmoreeducation() {
+    i++;
+    if(education.length <= 5){
+    setEducation([...education, <Educationtable key={i}/>]); // Append new row
+    } 
+  }
+  const removeRow = (id) => {
+    setEducation(education.filter((_, index) => index !== Number(id)));
+  };
+  
   const closeAlert = () => {
     setIsVisible(false);
   };
 
   const nameValidate = (value) => {
     const isAlphabetsOnly = /^[A-Za-z]+( [A-Za-z]+)*$/.test(value);
+    
     if (!isAlphabetsOnly) {
       setErrorName("Name should contain only alphabets");
-      setErrors("there were error");
-    } else {
+      setErrors("there was name error");
+    }
+        else{
       setErrorName("");
       setIsVisible(false);
     }
-  };
+  }
+  
 
   const emailValidate = (value) => {
     if (value === "" || !value.includes("@") || !value.includes(".")) {
       setErrorEmail("Please enter a valid email address.");
       setErrors("there were errors");
-    } else {
+    } else if(value.length > 3) {
+      axios.post("http://localhost/ajax/api/emailregisterApi.php", {'email':value})
+      .then((response) => {
+        if (response.data.status === "success") {
+          setErrorEmail(response.data.message);
+          setErrors("there was email error");
+        } else {
+          setErrorEmail('');
+          setErrors('');
+      setIsVisible(false);
+        }
+      })} 
+    else {
       setErrorEmail("");
       setIsVisible(false);
     }
@@ -38,27 +127,38 @@ const Form = () => {
   const Submit = (e) => {
     e.preventDefault();
     if (errors === "") {
-      document.querySelector(".loader").style.display = "block";
+      setIsVisible(false);
+      setIsVisibleloader(true);
       document.getElementById("myformid").style.display = "none";
       document.querySelector(".loader-text").textContent = "Processing......";
       const formData = new FormData(document.getElementById("myformid"));
       axios
         .post("http://localhost/ajax/api/insertApi.php", formData)
         .then((response) => {
-          document.querySelector(".loader").style.display = "none";
           document.getElementById("myformid").style.display = "block";
           document.querySelector(".loader-text").textContent =
             "Registration Form";
-
+            setIsVisibleloader(false);
           if (response.data.status === "success") {
             document.getElementById("myformid").reset();
             console.log("API Response:", response.data);
+            setIsVisible(false);
           } else {
             console.log("API Response:", response.data);
+             setIsVisible(true);
+             setIsVisibleloader(false);
+             setErrors(response.data.message);
           }
+          
         });
-    } else {
+        setErrors('');     
+    }
+    
+    else {
+      
       setIsVisible(true);
+      // setErrors('form stopped due toname validation');
+      
       console.log("form stopped due toname validation");
     }
   };
@@ -66,8 +166,8 @@ const Form = () => {
     <>
       <div className="form-container">
         <center>
-          <div className="loader"></div>
-          {isVisible && (
+        {isVisibleloader && <div className="loader"></div>}
+        {isVisible && (
             <div id="alert" className="alert">
               {errors}
               <span className="closebtn" onClick={closeAlert}>
@@ -184,57 +284,12 @@ const Form = () => {
                   <th>Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <select name="standard[]" required>
-                      <option value="High-School">High-School</option>
-                      <option value="Intermediate">Intermediate</option>
-                      <option value="Graduation">Graduation</option>
-                      <option value="Postgraduate">Postgraduate</option>
-                      <option value="Diploma">Diploma</option>
-                      <option value="Phd">PhD</option>
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="college[]"
-                      placeholder="Enter College"
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      max="100"
-                      min="0"
-                      name="percentage[]"
-                      placeholder="Enter Percentage"
-                      required
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      name="year[]"
-                      min="1900"
-                      max="2100"
-                      placeholder="Enter Passout Year"
-                      required
-                    />
-                  </td>
-                  <td>
-                    <button type="button" className="delete-btn">
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
+              {education}
             </table>
-            <button type="button" className="addmore-btn">
+            { education.length<6 &&(
+            <button type="button" className="addmore-btn" onClick={Addmoreeducation}>
               Add More
-            </button>
+            </button>)}
           </div>
           <div className="form-group" id="img">
             <label htmlFor="file-input">Upload Image</label>
