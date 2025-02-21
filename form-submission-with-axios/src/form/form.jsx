@@ -10,7 +10,7 @@ const Form = () => {
     return (
     <>
     <tbody>
-                  <tr>
+      <tr>
                     <td>
                       <select name="standard[]" required>
                         <option value="High-School">High-School</option>

@@ -7,7 +7,7 @@ export function Contact (){
     const navigate= useNavigate();
 
     useEffect(() => {
-        if (sessionStorage.getItem("tokken") !== "111") {
+        if (atob(sessionStorage.getItem("tokken")) !== "112") {
             navigate("/");
         }
     }, [navigate]);

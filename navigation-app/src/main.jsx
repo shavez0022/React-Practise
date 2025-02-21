@@ -5,6 +5,7 @@ import { Home } from "./home";
 import {AboutUs} from "./about/about";
 import { Services } from "./services/services";
 import { Contact } from "./contact/contact";
+import { Trips } from "./trips/trips";
 
 createRoot(document.getElementById("root")).render(
   <Router>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")).render(
       <Route path="/about" element={<AboutUs />} />
       <Route path="/services" element={<Services />} />
       <Route path="/contact" element={<Contact />} />
+      <Route path="/trip" element={<Trips />} />
     </Routes>
   </Router>
 );
