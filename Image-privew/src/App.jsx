@@ -4,14 +4,14 @@ import "./App.css";
 function App() {
   const [image, setImage] = useState(() => {
     const imagePreview = localStorage.getItem("image");
-    return imagePreview ? JSON.parse(imagePreview) : 
-      "https://images.pexels.com/photos/30491755/pexels-photo-30491755/free-photo-of-majestic-green-mountain-ridge-in-martinique.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load";
+    return imagePreview
+      ? JSON.parse(imagePreview)
+      : "https://images.pexels.com/photos/30491755/pexels-photo-30491755/free-photo-of-majestic-green-mountain-ridge-in-martinique.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load";
   });
 
- 
   function change() {
     localStorage.setItem("image", JSON.stringify(image));
-  };
+  }
   change();
 
   return (
@@ -76,8 +76,10 @@ function App() {
               }}
               onClick={() => {
                 change();
-                setImage("https://images.pexels.com/photos/30491755/pexels-photo-30491755/free-photo-of-majestic-green-mountain-ridge-in-martinique.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load");
-                }}
+                setImage(
+                  "https://images.pexels.com/photos/30491755/pexels-photo-30491755/free-photo-of-majestic-green-mountain-ridge-in-martinique.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
+                );
+              }}
             />
           </div>
 
@@ -101,11 +103,11 @@ function App() {
                 objectFit: "cover",
                 cursor: "pointer",
               }}
-              onClick={() =>{
+              onClick={() => {
                 change();
-                setImage("https://images.pexels.com/photos/30627050/pexels-photo-30627050/free-photo-of-scenic-landscape-with-cumulonimbus-cloud.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
-                ); 
-                
+                setImage(
+                  "https://images.pexels.com/photos/30627050/pexels-photo-30627050/free-photo-of-scenic-landscape-with-cumulonimbus-cloud.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
+                );
               }}
             />
           </div>
@@ -130,18 +132,16 @@ function App() {
                 objectFit: "cover",
                 cursor: "pointer",
               }}
-              onClick={() =>{
+              onClick={() => {
                 change();
                 setImage(
                   "https://images.pexels.com/photos/29284210/pexels-photo-29284210/free-photo-of-tranquil-lake-in-the-dolomites-of-italy.jpeg?auto=compress&cs=tinysrgb&w=300&lazy=load"
                 );
-                
               }}
             />
           </div>
         </div>
       </div>
-      
     </>
   );
 }
