@@ -2,32 +2,29 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { App } from "../navbar/navbar";
 
-
-export function Trips() {
+export function Drivers() {
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalpages] = useState();
 
   // Fetch API Data
-  const fetchTripsData = () => {
+  const Tripsdata = () => {
     axios
-      .get("http://localhost/project2/api/gettrips_api.php", {
+      .get("http://localhost/project2/api/getdriver_api.php", {
         params: { currentpage: currentPage },
       })
       .then((response) => {
         if (response.data.status === "success") {
           setTrips(response.data.data);
-          setTotalPages(response.data.totalPages);
+          setTotalpages(response.data.totalPages);
         }
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        toast.error("Failed to load trip data!", { position: "top-right" });
-      });
+      .catch((error) => console.error("Error fetching data:", error));
   };
 
   useEffect(() => {
-    fetchTripsData();
+    console.log(currentPage);
+    Tripsdata();
   }, [currentPage]);
 
   const pagesPerGroup = 5;
@@ -42,7 +39,6 @@ export function Trips() {
   return (
     <>
       <App />
-
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         {/* Background Image */}
         <div className="absolute inset-0">
@@ -56,7 +52,7 @@ export function Trips() {
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-6 py-10">
           <h2 className="text-4xl font-extrabold text-center text-black mb-6">
-            Trip Details
+            Drivers Details
           </h2>
 
           {/* Table */}
@@ -65,15 +61,15 @@ export function Trips() {
               <thead className="bg-gray-900 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left">#</th>
-                  <th className="py-3 px-4 text-left">Ambulance No</th>
                   <th className="py-3 px-4 text-left">Driver Name</th>
-                  <th className="py-3 px-4 text-left">Hospital Name</th>
-                  <th className="py-3 px-4 text-left">Trip Start</th>
-                  <th className="py-3 px-4 text-left">Trip End</th>
-                  <th className="py-3 px-4 text-left">Distance Covered</th>
+                  <th className="py-3 px-4 text-left">Driver Status</th>
+                  <th className="py-3 px-4 text-left">Contact Number</th>
+                  <th className="py-3 px-4 text-left">License Number</th>
+                  <th className="py-3 px-4 text-left">Address</th>
                 </tr>
               </thead>
 
+              {/* Table Body */}
               <tbody>
                 {trips.length > 0 ? (
                   trips.map((trip, index) => (
@@ -81,24 +77,38 @@ export function Trips() {
                       key={trip.id}
                       className="border-b transition duration-200 hover:bg-gray-100"
                     >
-                      <td className="py-4 px-4">{index + 1}</td>
-                      <td className="py-4 px-4">{trip.registration_number}</td>
-                      <td className="py-4 px-4">{trip.driver_name}</td>
-                      <td className="py-4 px-4">{trip.hospital_name}</td>
-                      <td className="py-4 px-4">{trip.trip_start}</td>
-                      <td className="py-4 px-4">{trip.trip_end}</td>
-                      <td className="py-4 px-4">{trip.distance_covered_km} km</td>
+                      <td className="py-4 px-4 ">{index + 1}</td>
+
+                      <td className="py-4 px-4 ">{trip.name}</td>
+
+                      <td className="py-4 px-4 ">
+                        {trip.driver_status == 2
+                          ? "Maintenance"
+                          : trip.driver_status == 0
+                          ? "Went to Trip"
+                          : trip.driver_status == 1
+                          ? "Available"
+                          : "Unknown"}
+                      </td>
+
+                      <td className="py-4 px-4 ">
+                        {trip.contact_number}
+                      </td>
+                      <td className="py-4 px-4 ">
+                        {trip.license_number}
+                      </td>
+                      <td className="py-4 px-4 ">{trip.address}</td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td
-                      colSpan="7"
-                      className="py-6 text-center text-gray-500 text-lg"
-                    >
-                      No records found 🚫
-                    </td>
-                  </tr>
+                  <td
+                    colSpan="7"
+                    className="py-6 text-center text-gray-500 text-lg"
+                  >
+                    No records found 🚫
+                  </td>
+                </tr>
                 )}
               </tbody>
             </table>
@@ -111,21 +121,12 @@ export function Trips() {
             </h2>
 
             <div className="flex space-x-2">
-              {currentPage > 2 &&(
-            <button
-                onClick={() => setCurrentPage(1)}
-                
-                className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50"
-              >
-                First
-              </button>
-              )}
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
                 className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50"
               >
-                Prev
+                ⬅ Prev
               </button>
 
               {pageNumbers.map((page) => (
@@ -149,17 +150,8 @@ export function Trips() {
                 disabled={currentPage === totalPages}
                 className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50"
               >
-                Next
+                Next ➡
               </button>
-
-              {currentPage < totalPages-1 &&(
-            <button
-                onClick={() => setCurrentPage(totalPages)}
-                className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50"
-              >
-                Last
-              </button>
-              )}
             </div>
 
             {/* Go to Page Input */}
@@ -174,7 +166,7 @@ export function Trips() {
                   setCurrentPage(1);
                 }
               }}
-              className="border-2 bg-gray-500 p-2 rounded w-32 text-center mt-4"
+              className="border-2 p-2 rounded w-32 text-center mt-4"
             />
           </div>
         </div>

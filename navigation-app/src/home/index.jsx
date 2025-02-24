@@ -3,14 +3,10 @@ import { App } from "../navbar/navbar";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../fotter/fotter";
+
 export function Home() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!(sessionStorage.getItem("tokken"))) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   return (
     <>
@@ -29,7 +25,7 @@ export function Home() {
           <div className="max-w-5xl w-full bg-white rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
          
             <div className="md:w-1/2 text-center md:text-left">
-              <img  className="h-50 w-150" src="http://localhost/my-react-app/pics/logo1.webp"alt="" />
+              <img  className="h-50 w-150" src="https://files.oaiusercontent.com/file-4qgLLmmzbKi34pFNWN4FHd?se=2025-02-24T10%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db6efff6b-6d71-4441-9885-1229c53fe9e6.webp&sig=WoMG8zGhTyrccMdrQSnp5O4LeaiEUrKDmgsFGwwK0FI%3D"alt="" />
               <h4 className="text-lg mb-4 font-semibold">
                 Sabse Tezz Sabse Aage...
               </h4>
@@ -52,7 +48,7 @@ export function Home() {
             {/* Right Section */}
             <div className="md:w-1/2">
               <img
-                src="https://files.oaiusercontent.com/file-TYuwwZR8Xd3PA3o2bvH63H?se=2025-02-21T06%3A10%3A33Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D64593af1-9f84-4087-b688-db96eff4fa59.webp&sig=cS9B9AZH/IXStwqNKgbByNbGylj5/7459W7BB4z7WNw%3D"
+                src="https://files.oaiusercontent.com/file-GScUWGQ7Zc2kEkDDQGu9az?se=2025-02-24T09%3A59%3A16Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc77865a2-490f-4df9-ab20-e59bb8f55060.webp&sig=sAm/sn%2B/DIADZmiIafgCpc2P2R9A9LqFXRxZBN1GWgk%3D"
                 alt="Ambulance Service"
                 className="w-full rounded-lg shadow-lg"
               />

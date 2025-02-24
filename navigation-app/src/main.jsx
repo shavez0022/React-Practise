@@ -6,6 +6,9 @@ import {AboutUs} from "./about/about";
 import { Services } from "./services/services";
 import { Contact } from "./contact/contact";
 import { Trips } from "./trips/trips";
+import { Ambulance } from "./ambulance/ambulance";
+import { Drivers } from "./drivers/drivers";
+import { Hospitals } from "./hospitals/hospitals";
 
 createRoot(document.getElementById("root")).render(
   <Router>
@@ -16,6 +19,9 @@ createRoot(document.getElementById("root")).render(
       <Route path="/services" element={<Services />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/trip" element={<Trips />} />
+      <Route path="/ambulance" element={<Ambulance />} />
+      <Route path="/drivers" element={<Drivers />} />   
+      <Route path="/hospital" element={<Hospitals />} />   
     </Routes>
   </Router>
 );

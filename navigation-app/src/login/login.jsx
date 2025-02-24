@@ -3,6 +3,7 @@ import "./login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { App } from "../navbar/navbar";
 
 export function Login() {
   function closeAlert() {
@@ -12,11 +13,13 @@ export function Login() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+ 
   useEffect(() => {
     if(sessionStorage.getItem("tokken")) {
       navigate("/home");
     }
-  }, [navigate]);
+  });
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setMessage("");
@@ -36,6 +39,8 @@ export function Login() {
       });
   };
   return (
+    <>
+    <App/>
     <div
       className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
       style={{
@@ -113,5 +118,6 @@ export function Login() {
         </form>
       </div>
     </div>
+    </>
   );
 }
