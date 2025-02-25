@@ -9,7 +9,7 @@ export function AboutUs() {
     const navigate= useNavigate();
   
     useEffect(() => {
-      if (atob(sessionStorage.getItem("tokken")) !== "112") {
+      if (atob(localStorage.getItem("tokken")) !== "112") {
           navigate("/");
       }
   }, [navigate]);

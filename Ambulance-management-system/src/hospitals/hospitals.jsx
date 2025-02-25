@@ -10,7 +10,7 @@ export function Hospitals() {
   const [totalPages, setTotalPages] = useState(1);
   const [SearchTerm, setSearchTerm] = useState("");
 
- useEffect(() => {
+  useEffect(() => {
     console.log(SearchTerm);
     axios
       .get("http://localhost/project2/api/gethospital_api.php", {
@@ -53,9 +53,6 @@ export function Hospitals() {
       });
   }, [currentPage]);
 
-
- 
-
   return (
     <>
       <App />
@@ -82,7 +79,8 @@ export function Hospitals() {
                 onKeyUp={(e) => setSearchTerm(e.target.value)}
                 className="text-cyan-50 px-3 py-2 w-64 border-2 bg-black border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
-            </div><table className="w-full border-collapse rounded-lg">
+            </div>
+            <table className="w-full border-collapse rounded-lg">
               <thead className="bg-gray-900 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left">#</th>
@@ -97,7 +95,8 @@ export function Hospitals() {
                   trips.map((trip, index) => (
                     <tr
                       key={trip.id}
-                      className="border-b transition duration-200 hover:bg-gray-100" >
+                      className="border-b transition duration-200 hover:bg-gray-100"
+                    >
                       <td className="py-3 px-4 ">{index + 1}</td>
                       <td className="py-3 px-4 ">{trip.hospital_name} </td>
                       <td className="py-3 px-4 ">{trip.contact_number} </td>
@@ -109,7 +108,8 @@ export function Hospitals() {
                   <tr>
                     <td
                       colSpan="7"
-                      className="py-6 text-center text-gray-500 text-lg">
+                      className="py-6 text-center text-gray-500 text-lg"
+                    >
                       No records found 🚫
                     </td>
                   </tr>
@@ -117,11 +117,11 @@ export function Hospitals() {
               </tbody>
             </table>
           </div>
-           <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  setCurrentPage={setCurrentPage}
-                />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
         </div>
       </div>
       <Footer />

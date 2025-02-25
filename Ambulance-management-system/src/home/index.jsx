@@ -1,18 +1,18 @@
 import "./home.css";
-import { App, Sidebar } from "../navbar/navbar";
+import { App} from "../navbar/navbar";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Footer } from "../footer/footer"; 
-import { ToastContainer, toast } from "react-toastify";
+import { Footer } from "../footer/footer";
+import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem("toastMessage")) {
-      toast.success("Login Successful...",{ autoClose: 2000 });
-      sessionStorage.removeItem("toastMessage")
+    if (localStorage.getItem("toastMessage")) {
+      toast.success("Login Successful...", { transition: Slide });
+      localStorage.removeItem("toastMessage");
     }
   }, []);
 
@@ -20,8 +20,7 @@ export function Home() {
     <>
       <App />
       <div className="relative min-h-screen bg-gray-100">
-        
-      <ToastContainer />
+        <ToastContainer />
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
@@ -30,14 +29,15 @@ export function Home() {
             className="w-full h-full object-cover opacity-50"
           />
         </div>
-    
-        <Sidebar />
+
         <div className="relative z-10 flex flex-col items-center justify-center p-8">
-          
           <div className="max-w-5xl w-full bg-white rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
-         
             <div className="md:w-1/2 text-center md:text-left">
-              <img  className="h-50 w-150" src="https://files.oaiusercontent.com/file-4qgLLmmzbKi34pFNWN4FHd?se=2025-02-24T10%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db6efff6b-6d71-4441-9885-1229c53fe9e6.webp&sig=WoMG8zGhTyrccMdrQSnp5O4LeaiEUrKDmgsFGwwK0FI%3D"alt="" />
+              <img
+                className="h-50 w-150"
+                src="https://files.oaiusercontent.com/file-4qgLLmmzbKi34pFNWN4FHd?se=2025-02-24T10%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db6efff6b-6d71-4441-9885-1229c53fe9e6.webp&sig=WoMG8zGhTyrccMdrQSnp5O4LeaiEUrKDmgsFGwwK0FI%3D"
+                alt=""
+              />
               <h4 className="text-lg mb-4 font-semibold">
                 Sabse Tezz Sabse Aage...
               </h4>

@@ -11,28 +11,6 @@ export function Trips() {
   const [SearchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    console.log(SearchTerm);
-    axios
-      .get("http://localhost/project2/api/gettrips_api.php", {
-        params: { currentpage: currentPage, name: SearchTerm },
-      })
-      .then((response) => {
-        if (response.data.status === "success") {
-          setTrips(response.data.data);
-          setCurrentPage(1);
-          setTotalPages(response.data.totalPages);
-        } else {
-          setTrips([]);
-          setTotalPages(1);
-          setCurrentPage(1);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, [SearchTerm]);
-
-  useEffect(() => {
     axios
       .get("http://localhost/project2/api/gettrips_api.php", {
         params: { currentpage: currentPage, name: SearchTerm },
@@ -49,15 +27,12 @@ export function Trips() {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        toast.error("Failed to load trip data!", { position: "top-right" });
       });
-  }, [currentPage]);
-
+  }, [SearchTerm, currentPage]);
 
   return (
     <>
       <App />
-
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         {/* Background Image */}
         <div className="absolute inset-0">
@@ -74,9 +49,7 @@ export function Trips() {
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
             {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
-              <h2 className="text-4xl font-extrabold text-black">
-                Trip Details
-              </h2>
+              <h2 className="text-4xl font-extrabold text-black">Trip Details</h2>
               <input
                 type="text"
                 placeholder="Search..."
@@ -96,7 +69,6 @@ export function Trips() {
                   <th className="py-3 px-4 text-left">Distance Covered</th>
                 </tr>
               </thead>
-
               <tbody>
                 {trips.length > 0 ? (
                   trips.map((trip, index) => (
@@ -110,9 +82,7 @@ export function Trips() {
                       <td className="py-4 px-4">{trip.hospital_name}</td>
                       <td className="py-4 px-4">{trip.trip_start}</td>
                       <td className="py-4 px-4">{trip.trip_end}</td>
-                      <td className="py-4 px-4">
-                        {trip.distance_covered_km} km
-                      </td>
+                      <td className="py-4 px-4">{trip.distance_covered_km} km</td>
                     </tr>
                   ))
                 ) : (
@@ -131,13 +101,13 @@ export function Trips() {
 
           {/* Pagination */}
           <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
-      />
+            currentPage={currentPage}
+            totalPages={totalPages}
+            setCurrentPage={setCurrentPage}
+          />
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
