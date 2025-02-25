@@ -10,6 +10,7 @@ export function App() {
     if (window.confirm("Are you sure you want to log out?")) {
       sessionStorage.removeItem("tokken");
       sessionStorage.removeItem("role");
+      sessionStorage.setItem("toastMessage",1);
       setRole("");
       navigate("/");
     }
@@ -109,3 +110,15 @@ export function App() {
     </>
   );
 }
+export const Sidebar = () => {
+  return (
+    <div className="w-64  bg-gray-800 text-white p-4 fixed">
+      <h2 className="text-xl font-bold mb-4">Sidebar</h2>
+      <ul className="space-y-3">
+        <li><a href="/home" className="block p-2 rounded hover:bg-gray-700">Home</a></li>
+        <li><a href="/dashboard" className="block p-2 rounded hover:bg-gray-700">Dashboard</a></li>
+        <li><a href="/settings" className="block p-2 rounded hover:bg-gray-700">Settings</a></li>
+      </ul>
+    </div>
+  );
+};

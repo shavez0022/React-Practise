@@ -1,6 +1,6 @@
 import React from "react";
 
-const Footer = () => {
+export const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-8 mt-10">
       <div className="container mx-auto text-center">
@@ -12,11 +12,12 @@ const Footer = () => {
           <a href="#" className="text-gray-400 hover:text-white">Contact Us</a>
         </div>
         <div className="mt-4">
-          <p className="text-gray-500 text-sm">&copy; {new Date().getFullYear()} Hyper Ambulance. All rights reserved.</p>
+          <p className="text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} Hyper Ambulance. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
   );
 };
 
-export default Footer;

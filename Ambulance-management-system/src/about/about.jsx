@@ -2,9 +2,9 @@ import './about.css'
 import {App} from '../navbar/navbar'
 import {  useNavigate } from 'react-router-dom';
 import { useEffect } from "react";
+import { Footer } from "../footer/footer"
 
-
- export function AboutUs() {
+export function AboutUs() {
   
     const navigate= useNavigate();
   
@@ -22,6 +22,7 @@ import { useEffect } from "react";
           Welcome to my project! I am currently working on it.........
         </p>
       </div>
+      <Footer/>
       </>
     );
  }

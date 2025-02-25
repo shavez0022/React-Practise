@@ -10,11 +10,13 @@ import { Ambulance } from "./ambulance/ambulance";
 import { Drivers } from "./drivers/drivers";
 import { Hospitals } from "./hospitals/hospitals";
 
+
 createRoot(document.getElementById("root")).render(
   <Router>
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/home" element={<Home />} 
+      />
       <Route path="/about" element={<AboutUs />} />
       <Route path="/services" element={<Services />} />
       <Route path="/contact" element={<Contact />} />

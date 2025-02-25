@@ -1,17 +1,27 @@
 import "./home.css";
-import { App } from "../navbar/navbar";
+import { App, Sidebar } from "../navbar/navbar";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Footer from "../fotter/fotter";
+import { Footer } from "../footer/footer"; 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export function Home() {
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (sessionStorage.getItem("toastMessage")) {
+      toast.success("Login Successful...",{ autoClose: 2000 });
+      sessionStorage.removeItem("toastMessage")
+    }
+  }, []);
 
   return (
     <>
       <App />
       <div className="relative min-h-screen bg-gray-100">
+        
+      <ToastContainer />
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
@@ -20,8 +30,10 @@ export function Home() {
             className="w-full h-full object-cover opacity-50"
           />
         </div>
-
+    
+        <Sidebar />
         <div className="relative z-10 flex flex-col items-center justify-center p-8">
+          
           <div className="max-w-5xl w-full bg-white rounded-lg shadow-lg p-6 flex flex-col md:flex-row items-center gap-6">
          
             <div className="md:w-1/2 text-center md:text-left">

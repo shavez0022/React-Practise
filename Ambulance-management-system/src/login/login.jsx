@@ -4,8 +4,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { App } from "../navbar/navbar";
+import { Footer } from "../footer/footer";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Eye, EyeOff } from "lucide-react"; // Install lucide-react
+
 
 export function Login() {
+  const [showPassword, setShowPassword] = useState(false);
+
   function closeAlert() {
     setMessage("");
   }
@@ -17,6 +24,10 @@ export function Login() {
   useEffect(() => {
     if(sessionStorage.getItem("tokken")) {
       navigate("/home");
+    }
+    if(sessionStorage.getItem("toastMessage")){
+      toast.success("Logout Successful...",{ autoClose: 2000 });
+      sessionStorage.removeItem("toastMessage") 
     }
   });
   
@@ -32,8 +43,10 @@ export function Login() {
         if (response.data.status === "success") {
           sessionStorage.setItem("tokken", btoa(response.data.access_token));
           sessionStorage.setItem("role", btoa(userRole));
+          sessionStorage.setItem("toastMessage",1)
           navigate("/home");
         } else {
+          setPassword('');
           setMessage("Wrong Credentials");
         }
       });
@@ -47,6 +60,7 @@ export function Login() {
         backgroundImage: `url("https://files.oaiusercontent.com/file-4sbGFh9mU8ZMUpfZ2JSdZG?se=2025-02-21T05%3A50%3A34Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D87238c77-94aa-4c90-90ea-4afa22c8851d.webp&sig=OjkZf2cJB1tYg5LHXbXokiCzxyFPVy5VjoUy6ysYHzE%3D")`,
       }}
     >
+      <ToastContainer />
       <div className="relative z-1 bg-black p-8 rounded-3xl shadow-black shadow-2xl w-96 -mt-65">
         {" "}
         {message && (
@@ -90,22 +104,30 @@ export function Login() {
 
           {/* Password Input */}
           <div>
-            <label
+          <label
               htmlFor="password"
               className="block text-sm font-medium text-gray-300"
             >
               Password
             </label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               id="password"
               name="password"
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+              className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50 pr-10"
             />
+            {/* Eye Icon inside Input */}
+            <button
+              type="button"
+              className="absolute top-54 right-9 text-gray-600"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+            </button>
           </div>
 
           {/* Login Button */}
@@ -118,6 +140,7 @@ export function Login() {
         </form>
       </div>
     </div>
+    <Footer/>
     </>
   );
 }

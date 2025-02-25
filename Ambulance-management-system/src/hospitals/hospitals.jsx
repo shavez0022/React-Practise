@@ -1,40 +1,60 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { App } from "../navbar/navbar";
+import { Pagination } from "../pagination/pagination";
+import { Footer } from "../footer/footer";
 
 export function Hospitals() {
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalpages] = useState();
+  const [totalPages, setTotalPages] = useState(1);
+  const [SearchTerm, setSearchTerm] = useState("");
 
-  // Fetch API Data
-  const Tripsdata = () => {
+ useEffect(() => {
+    console.log(SearchTerm);
     axios
       .get("http://localhost/project2/api/gethospital_api.php", {
-        params: { currentpage: currentPage },
+        params: { currentpage: currentPage, name: SearchTerm },
       })
       .then((response) => {
         if (response.data.status === "success") {
           setTrips(response.data.data);
-          setTotalpages(response.data.totalPages);
+          setCurrentPage(1);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+          setCurrentPage(1);
         }
       })
-      .catch((error) => console.error("Error fetching data:", error));
-  };
-
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [SearchTerm]);
   useEffect(() => {
-    console.log(currentPage);
-    Tripsdata();
+    console.log(SearchTerm);
+    axios
+      .get("http://localhost/project2/api/gethospital_api.php", {
+        params: { currentpage: currentPage, name: SearchTerm },
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTrips(response.data.data);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+          setCurrentPage(1);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        toast.error("Failed to load trip data!", { position: "top-right" });
+      });
   }, [currentPage]);
 
-  const pagesPerGroup = 5;
-  const currentGroup = Math.ceil(currentPage / pagesPerGroup);
-  const startPage = (currentGroup - 1) * pagesPerGroup + 1;
-  const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
-  const pageNumbers = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i
-  );
+
+ 
 
   return (
     <>
@@ -49,12 +69,20 @@ export function Hospitals() {
           />
         </div>
         <div className="relative z-10 container mx-auto px-6 py-10">
-          <h2 className="text-4xl font-extrabold text-center text-black mb-6">
-            Hospital Details
-          </h2>
-
-          <div className="overflow-x-auto bg-white shadow-lg rounded-lg">
-            <table className="w-full border-collapse rounded-lg">
+          {/* Table */}
+          <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
+            {/* Title Section */}
+            <div className="w-full flex justify-between items-center mb-4">
+              <h2 className="text-4xl font-extrabold text-black">
+                Hospitals Details
+              </h2>
+              <input
+                type="text"
+                placeholder="Search..."
+                onKeyUp={(e) => setSearchTerm(e.target.value)}
+                className="text-cyan-50 px-3 py-2 w-64 border-2 bg-black border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              />
+            </div><table className="w-full border-collapse rounded-lg">
               <thead className="bg-gray-900 text-white">
                 <tr>
                   <th className="py-3 px-4 text-left">#</th>
@@ -89,55 +117,14 @@ export function Hospitals() {
               </tbody>
             </table>
           </div>
-          <div className="flex flex-col items-center mt-8">
-            <h2 className="text-lg font-semibold mb-4">
-              Page {currentPage} of {totalPages}
-            </h2>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50">
-                ⬅ Prev
-              </button>
-              {pageNumbers.map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`px-4 py-2 rounded font-semibold ${
-                    currentPage === page
-                      ? "bg-black text-white"
-                      : "bg-gray-500 text-gray-200 hover:bg-blue-400 hover:text-white"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 rounded bg-gray-500 text-gray-200 hover:bg-gray-900 disabled:opacity-50">
-                Next ➡
-              </button>
-            </div>
-            <input
-              type="number"
-              placeholder="Go to page..."
-              onChange={(e) => {
-                const page = Number(e.target.value);
-                if (page >= 1 && page <= totalPages) {
-                  setCurrentPage(page);
-                } else {
-                  setCurrentPage(1);
-                }
-              }}
-              className="border-2 p-2 rounded w-32 text-center mt-4"
-            />
-          </div>
+           <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  setCurrentPage={setCurrentPage}
+                />
         </div>
       </div>
+      <Footer />
     </>
   );
 }
