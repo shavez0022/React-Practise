@@ -70,14 +70,28 @@ export function Hospitals() {
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
             {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
-              <h2 className="text-4xl font-extrabold text-black">
+             <h4 className="text-2xl  font-extrabold text-black">
                 Hospitals Details
-              </h2>
+              </h4>
+              <button
+                  onClick={() => {
+                    setIsOpen(true); // Open the modal or form
+                    setFormType("Submit");
+                    setUpdateButton();
+                    setFormData({
+                      registration_number: "",
+                      ambulance_type: "",
+                    });
+                  }}
+                  className="hover:bg-emerald-500 cursor-pointer px-3 py-2 rounded-xl text-white bg-gray-900"
+                >
+                  Add More &#43;
+                </button>
               <input
                 type="text"
                 placeholder="Search..."
                 onKeyUp={(e) => setSearchTerm(e.target.value)}
-                className="text-cyan-50 px-3 py-2 w-64 border-2 bg-black border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="text-cyan-50 px-3 py-2 w-56 border-2 bg-black border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
               />
             </div>
             <table className="w-full border-collapse rounded-lg">
