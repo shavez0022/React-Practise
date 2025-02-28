@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { App } from "../navbar/navbar";
+import { App,Imagebg } from "../navbar/navbar";
 import { Pagination } from "../pagination/pagination";
 import { Footer } from "../footer/footer";
 
@@ -58,13 +58,8 @@ export function Hospitals() {
       <App />
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
         {/* Content Wrapper */}
-        <div className="absolute inset-0">
-          <img
-            src="https://files.oaiusercontent.com/file-7NshBEzaemefPo441kYGjg?se=2025-02-21T06%3A09%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc407496f-6796-49ef-a048-2e4431dcf68e.webp&sig=TnFWzUp0TlQb4XR0dYGu376H0lkvN98mujjVS6m22DM%3D"
-            alt="background"
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
+                <Imagebg/>
+        
         <div className="relative z-10 container mx-auto px-6 py-10">
           {/* Table */}
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
@@ -73,20 +68,7 @@ export function Hospitals() {
              <h4 className="text-2xl  font-extrabold text-black">
                 Hospitals Details
               </h4>
-              <button
-                  onClick={() => {
-                    setIsOpen(true); // Open the modal or form
-                    setFormType("Submit");
-                    setUpdateButton();
-                    setFormData({
-                      registration_number: "",
-                      ambulance_type: "",
-                    });
-                  }}
-                  className="hover:bg-emerald-500 cursor-pointer px-3 py-2 rounded-xl text-white bg-gray-900"
-                >
-                  Add More &#43;
-                </button>
+              
               <input
                 type="text"
                 placeholder="Search..."

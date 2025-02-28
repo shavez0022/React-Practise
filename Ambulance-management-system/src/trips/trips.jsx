@@ -37,7 +37,7 @@ export function Trips() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="https://files.oaiusercontent.com/file-7NshBEzaemefPo441kYGjg?se=2025-02-21T06%3A09%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc407496f-6796-49ef-a048-2e4431dcf68e.webp&sig=TnFWzUp0TlQb4XR0dYGu376H0lkvN98mujjVS6m22DM%3D"
+            src="/pics/bgmain.webp"
             alt="background"
             className="w-full h-full object-cover opacity-40"
           />

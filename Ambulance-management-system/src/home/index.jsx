@@ -24,7 +24,7 @@ export function Home() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src="https://files.oaiusercontent.com/file-7NshBEzaemefPo441kYGjg?se=2025-02-21T06%3A09%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc407496f-6796-49ef-a048-2e4431dcf68e.webp&sig=TnFWzUp0TlQb4XR0dYGu376H0lkvN98mujjVS6m22DM%3D"
+            src="/pics/bgmain.webp"
             alt="background"
             className="w-full h-full object-cover opacity-50"
           />
@@ -35,7 +35,7 @@ export function Home() {
             <div className="md:w-1/2 text-center md:text-left">
               <img
                 className="h-50 w-150"
-                src="https://files.oaiusercontent.com/file-4qgLLmmzbKi34pFNWN4FHd?se=2025-02-24T10%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db6efff6b-6d71-4441-9885-1229c53fe9e6.webp&sig=WoMG8zGhTyrccMdrQSnp5O4LeaiEUrKDmgsFGwwK0FI%3D"
+                src="/pics/logo1.webp"
                 alt=""
               />
               <h4 className="text-lg mb-4 font-semibold">
@@ -43,7 +43,7 @@ export function Home() {
               </h4>
               <p className="text-gray-600 mb-4">
                 Ambulance Service in your neighborhood. Hyper Ambulance is
-                India’s largest ambulance service with a whopping 1 Million+
+                India’s largest ambulance service with a whopping 1 Million+``
                 customers. Experience the quickest and most reliable medical
                 assistance right at your doorstep.
               </p>
@@ -60,7 +60,7 @@ export function Home() {
             {/* Right Section */}
             <div className="md:w-1/2">
               <img
-                src="https://files.oaiusercontent.com/file-GScUWGQ7Zc2kEkDDQGu9az?se=2025-02-24T09%3A59%3A16Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc77865a2-490f-4df9-ab20-e59bb8f55060.webp&sig=sAm/sn%2B/DIADZmiIafgCpc2P2R9A9LqFXRxZBN1GWgk%3D"
+                src="/pics/pic1.webp"
                 alt="Ambulance Service"
                 className="w-full rounded-lg shadow-lg"
               />

@@ -57,11 +57,17 @@ export function Login() {
     <>
       <App />
       <div
-        className="relative flex items-center justify-center min-h-screen bg-cover bg-center"
-        style={{
-          backgroundImage: `url("https://files.oaiusercontent.com/file-4sbGFh9mU8ZMUpfZ2JSdZG?se=2025-02-21T05%3A50%3A34Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3D87238c77-94aa-4c90-90ea-4afa22c8851d.webp&sig=OjkZf2cJB1tYg5LHXbXokiCzxyFPVy5VjoUy6ysYHzE%3D")`,
-        }}
-      >
+  className="relative flex items-center justify-center"
+  style={{
+    backgroundImage: `url("/pics/bgmain7.webp")`,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    height: "700px",
+    width: "1466px"
+  }}
+>
+
         <ToastContainer />
         <div className="relative z-1 bg-black p-8 rounded-3xl shadow-black shadow-2xl w-96 -mt-65">
           {" "}
@@ -125,7 +131,7 @@ export function Login() {
               {/* Eye Icon inside Input */}
               <button
                 type="button"
-                className="absolute top-54 right-9 text-gray-600"
+                className="absolute right-10 text-gray-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { App } from "../navbar/navbar";
+import { App,Imagebg } from "../navbar/navbar";
 import { Footer } from "../footer/footer";
 import { Pagination } from "../pagination/pagination";
 import { ToastContainer, Slide, toast } from "react-toastify";
@@ -18,6 +18,10 @@ export function Ambulance() {
   const [isOpen, setIsOpen] = useState(false);
   const [FormType, setFormType] = useState("Submit");
   const [updateButton, setUpdateButton] = useState();
+
+  useEffect(() => {
+    console.log("shavez");
+  }, [SearchTerm]);
 
   useEffect(() => {
         axios
@@ -194,13 +198,8 @@ export function Ambulance() {
       <App />
       <ToastContainer />
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="absolute inset-0">
-          <img
-            src="https://files.oaiusercontent.com/file-7NshBEzaemefPo441kYGjg?se=2025-02-21T06%3A09%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc407496f-6796-49ef-a048-2e4431dcf68e.webp&sig=TnFWzUp0TlQb4XR0dYGu376H0lkvN98mujjVS6m22DM%3D"
-            alt="background"
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
+                <Imagebg/>
+        
 
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-6 py-10">
@@ -227,6 +226,7 @@ export function Ambulance() {
                   Add More &#43;
                 </button>
               </div>
+              
               <input
                 type="text"
                 placeholder="Search..."

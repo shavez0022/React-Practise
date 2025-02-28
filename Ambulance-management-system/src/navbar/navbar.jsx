@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import { FaHome, FaCogs, FaUsers, FaAmbulance, FaHospital, FaCar, FaPhone, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 export function App() {
   const navigate = useNavigate();
   const [Role, setRole] = useState("");
-
+  const location = useLocation();
+  const isActive = (path) => location.pathname === path;
   function Logout() {
     if (window.confirm("Are you sure you want to log out?")) {
       localStorage.removeItem("tokken");
@@ -27,11 +28,11 @@ export function App() {
 
   return (
     <>
-      <nav className="p-2.5 flex items-center justify-between">
+      <nav className="p-2.5 flex items-center justify-between bg-gray-50">
         <Link to="/home">
           <img
-            src="https://files.oaiusercontent.com/file-4qgLLmmzbKi34pFNWN4FHd?se=2025-02-24T10%3A01%3A07Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Db6efff6b-6d71-4441-9885-1229c53fe9e6.webp&sig=WoMG8zGhTyrccMdrQSnp5O4LeaiEUrKDmgsFGwwK0FI%3D"
-            alt="Hyper Ambulance Logo"
+                src="/pics/logo1.webp"
+                alt="Hyper Ambulance Logo"
             className="h-12 w-30"
           />
         </Link>
@@ -63,29 +64,40 @@ export function App() {
         )}
 
         {Role === "Admin" && (
-          <div className="flex text-xl font-semibold text-black">
-            <Link to="/trip" className="hover:bg-emerald-500 px-3 py-1 rounded">
-              Trips
-            </Link>
-            <Link
-              to="/ambulance"
-              className="hover:bg-emerald-500 px-3 py-1 rounded"
-            >
-              Ambulance
-            </Link>
-            <Link
-              to="/drivers"
-              className="hover:bg-emerald-500 px-3 py-1 rounded"
-            >
-              Drivers
-            </Link>
-            <Link
-              to="/hospital"
-              className="hover:bg-emerald-500 px-3 py-1 rounded"
-            >
-              Hospitals
-            </Link>
-          </div>
+           <div className="flex space-x-4 text-xl">
+           <Link
+             to="/trip"
+             className={`flex items-center gap-2 px-3 py-1 rounded text-black ${
+               isActive("/trip") ? "bg-emerald-500" : "hover:bg-emerald-500"
+             }`}
+           >
+             <FaCar /> Trips
+           </Link>
+           <Link
+             to="/ambulance"
+             className={`flex items-center gap-2 px-3 py-1 rounded text-black ${
+               isActive("/ambulance") ? "bg-emerald-500" : "hover:bg-emerald-500"
+             }`}
+           >
+             <FaAmbulance /> Ambulance
+           </Link>
+           <Link
+             to="/drivers"
+             className={`flex items-center gap-2 px-3 py-1 rounded text-black ${
+               isActive("/drivers") ? "bg-emerald-500" : "hover:bg-emerald-500"
+             }`}
+           >
+             <FaUsers /> Drivers
+           </Link>
+           <Link
+             to="/hospital"
+             className={`flex items-center gap-2 px-3 py-1 rounded text-black ${
+               isActive("/hospital") ? "bg-emerald-500" : "hover:bg-emerald-500"
+             }`}
+           >
+             <FaHospital /> Hospitals
+           </Link>
+         </div>
         )}
 
         <div className="flex items-center gap-4">
@@ -108,5 +120,17 @@ export function App() {
         </div>
       </nav>
     </>
+  );
+}
+
+export function Imagebg(){
+  return(
+<div className="absolute inset-0">
+          <img
+            src="/pics/bgmain.webp"
+            alt="background"
+            className="w-full h-full object-cover opacity-40"
+          />
+        </div>
   );
 }

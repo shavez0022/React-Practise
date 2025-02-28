@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { App } from "../navbar/navbar";
+import { App,Imagebg } from "../navbar/navbar";
 import { Footer } from "../footer/footer";
 
 import { Pagination } from "../pagination/pagination";
@@ -14,6 +14,8 @@ export function Drivers() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [formType, setFormType] = useState("Submit");
+  const [gender, setGender] = useState("both"); // Default value
+
   
   const [formData, setFormData] = useState({
     name: "",
@@ -32,7 +34,7 @@ export function Drivers() {
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/getdriver_api.php", {
-        params: { currentpage: currentPage, name: searchTerm },
+        params: { currentpage: currentPage, name: searchTerm ,gender:gender },
       })
       .then((response) => {
         if (response.data.status === "success") {
@@ -46,7 +48,7 @@ export function Drivers() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [searchTerm, currentPage,isOpen]);
+  }, [searchTerm, currentPage,isOpen,gender]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -173,18 +175,11 @@ export function Drivers() {
 
   return (
     <>
-      <ToastContainer />
-
       <App />
+      <ToastContainer />
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src="https://files.oaiusercontent.com/file-7NshBEzaemefPo441kYGjg?se=2025-02-21T06%3A09%3A46Z&sp=r&sv=2024-08-04&sr=b&rscc=max-age%3D604800%2C%20immutable%2C%20private&rscd=attachment%3B%20filename%3Dc407496f-6796-49ef-a048-2e4431dcf68e.webp&sig=TnFWzUp0TlQb4XR0dYGu376H0lkvN98mujjVS6m22DM%3D"
-            alt="background"
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
+        <Imagebg/>
+        
 
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-6 py-10">
@@ -192,10 +187,13 @@ export function Drivers() {
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
             {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
-              <h4 className="text-2xl font-extrabold text-black">Driver Details</h4>
-              <button
+              <div className="flex items-center gap-1 ">
+                <h4 className="text-2xl font-extrabold text-black mr-4">
+                  Drivers Details
+                </h4>
+                <button
                 onClick={() => {
-                  setIsOpen(true); // Open the modal
+                  setIsOpen(true);
                   setFormType("Submit");
                   setFormData({
                     name: "",
@@ -210,10 +208,16 @@ export function Drivers() {
                     pin_code: "",
                   });
                 }}
-                className="hover:bg-emerald-500 cursor-pointer px-3 py-2 rounded-xl text-white bg-gray-900"
-              >
+                className="hover:bg-emerald-500 cursor-pointer px-1 py-1.5  rounded-xl text-white bg-gray-900"
+                >
                 Add More &#43;
               </button>
+              <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={gender} onChange={(e)=>setGender(e.target.value)}>
+      <option value="both">Select gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+              </div>
               <input
                 type="text"
                 placeholder="Search..."
