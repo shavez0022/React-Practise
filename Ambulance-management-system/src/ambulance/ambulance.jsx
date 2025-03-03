@@ -4,9 +4,13 @@ import { App,Imagebg } from "../navbar/navbar";
 import { Footer } from "../footer/footer";
 import { Pagination } from "../pagination/pagination";
 import { ToastContainer, Slide, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Ambulance() {
+  const navigate = useNavigate();
+
+
   const [formData, setFormData] = useState({
     registration_number: "",
     ambulance_type: "",
@@ -18,15 +22,40 @@ export function Ambulance() {
   const [isOpen, setIsOpen] = useState(false);
   const [FormType, setFormType] = useState("Submit");
   const [updateButton, setUpdateButton] = useState();
+  const [status, setstatus] = useState("all"); // Default value
+
+ useEffect(()=>
+     {
+       if(atob(localStorage.getItem("role"))!='Admin'){
+         navigate("/home");
+   }
+     });
 
   useEffect(() => {
-    console.log("shavez");
-  }, [SearchTerm]);
+    axios
+    .get("http://localhost/project2/api/getambulance_api.php", {
+      params: { currentpage: 1,status:status, name: SearchTerm },
+    })
+    .then((response) => {
+      if (response.data.status === "Success") {
+        setTrips(response.data.data);
+        setCurrentPage(1);
+        setTotalPages(response.data.totalPages);
+      } else {
+        setTrips([]);
+        setTotalPages(1);
+        setCurrentPage(1);
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
+}, [status]);
 
   useEffect(() => {
         axios
         .get("http://localhost/project2/api/getambulance_api.php", {
-          params: { currentpage: currentPage, name: SearchTerm },
+          params: { currentpage: currentPage,status:status, name: SearchTerm },
         })
         .then((response) => {
           if (response.data.status === "Success") {
@@ -47,7 +76,7 @@ export function Ambulance() {
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/getambulance_api.php", {
-        params: { currentpage: currentPage, name: SearchTerm },
+        params: { currentpage: currentPage,status:status ,name: SearchTerm },
       })
       .then((response) => {
         if (response.data.status === "Success") {
@@ -139,7 +168,6 @@ export function Ambulance() {
         })
         .then((response) => {
           if (response.data.status === "Success") {
-            console.log("Fetched Data:", response.data.data);
             setFormData({
               registration_number: response.data.data.registration_number,
               ambulance_type: response.data.data.ambulance_type,
@@ -149,7 +177,6 @@ export function Ambulance() {
               registration_number: "",
               ambulance_type: "",
             });
-            console.log(response.data.message);
           }
         })
         .catch((error) => {
@@ -160,7 +187,6 @@ export function Ambulance() {
 
   function deleteValue(e) {
     if (confirm("Are you sure you want to delete this row")) {
-      console.log(e.target.value);
       const deleteId = e.target.value;
       axios
         .post("http://localhost/project2/api/delete-ambulance_api.php", {
@@ -207,10 +233,11 @@ export function Ambulance() {
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
             {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
-              <div className="flex items-center">
-                <h4 className="text-2xl font-extrabold text-black mr-4">
-                  Ambulance Details
-                </h4>
+              <div className="flex items-center gap-1">
+                <span className="text-2xl font-extrabold text-black mr-4">
+                  Ambulance Details  
+                </span>
+               
                 <button
                   onClick={() => {
                     setIsOpen(true); // Open the modal or form
@@ -221,10 +248,15 @@ export function Ambulance() {
                       ambulance_type: "",
                     });
                   }}
-                  className="hover:bg-emerald-500 cursor-pointer px-3 py-2 rounded-xl text-white bg-gray-900"
+                  className="hover:rounded hover:bg-emerald-600  cursor-pointer px-3 py-2 rounded-3xl text-white bg-gray-900 transition-all duration-500"
                 >
                   Add More &#43;
                 </button>
+                <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e)=>setstatus(e.target.value)}>
+      <option value="all">Select Availability</option>
+      <option value="available">Available</option>
+      <option value="Unavailable">Unavailable</option>
+    </select>
               </div>
               
               <input
@@ -274,14 +306,14 @@ export function Ambulance() {
                         <button
                           value={trip.id}
                           onClick={(e) => updateValue(e)}
-                          className="hover:bg-gray-600 cursor-pointer px-3 py-2 rounded-xl text-white bg-neutral-800"
+                          className="hover:rounded  cursor-pointer px-3 py-2 rounded-3xl text-white bg-neutral-800 transition-all duration-500"
                         >
-                          Update
+                          Update  
                         </button>
                         <button
                           value={trip.id}
                           onClick={(e) => deleteValue(e)}
-                          className="hover:bg-red-700 cursor-pointer px-3 py-2 rounded-xl text-white bg-red-900"
+                          className="hover:rounded cursor-pointer px-3 py-2 rounded-3xl text-white bg-red-900 transition-all duration-500"
                         >
                           delete
                         </button>

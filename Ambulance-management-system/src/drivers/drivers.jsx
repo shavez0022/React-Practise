@@ -2,19 +2,22 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { App,Imagebg } from "../navbar/navbar";
 import { Footer } from "../footer/footer";
-
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "../pagination/pagination";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Drivers() {
+  const navigate = useNavigate();
+  
+
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [formType, setFormType] = useState("Submit");
-  const [gender, setGender] = useState("both"); // Default value
+  const [status, setstatus] = useState("all"); // Default value
 
   
   const [formData, setFormData] = useState({
@@ -31,10 +34,57 @@ export function Drivers() {
     id:""
   });
 
+   useEffect(()=>
+    {
+      if(atob(localStorage.getItem("role"))!='Admin'){
+        navigate("/home");
+  }
+    });
+
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/getdriver_api.php", {
-        params: { currentpage: currentPage, name: searchTerm ,gender:gender },
+        params: { currentpage: 1, name: searchTerm ,status:status },
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTrips(response.data.data);
+          setCurrentPage(1);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [status]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost/project2/api/getdriver_api.php", {
+        params: { currentpage: currentPage, name: searchTerm ,status:status },
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
+          setTrips(response.data.data);
+          setCurrentPage(1);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [searchTerm]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost/project2/api/getdriver_api.php", {
+        params: { currentpage: currentPage, name: searchTerm ,status:status },
       })
       .then((response) => {
         if (response.data.status === "success") {
@@ -48,7 +98,7 @@ export function Drivers() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [searchTerm, currentPage,isOpen,gender]);
+  }, [currentPage,isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -118,7 +168,6 @@ export function Drivers() {
     .then((response) => {
       if (response.data.status === "Success") {
         setFormData({
-          
           name:response.data.data.name, 
           age: response.data.data.age,
           gender:response.data.data.gender,
@@ -208,14 +257,14 @@ export function Drivers() {
                     pin_code: "",
                   });
                 }}
-                className="hover:bg-emerald-500 cursor-pointer px-1 py-1.5  rounded-xl text-white bg-gray-900"
+                className="hover:rounded hover:bg-emerald-600  cursor-pointer px-3 py-2 rounded-3xl text-white bg-gray-900 transition-all duration-500"
                 >
                 Add More &#43;
               </button>
-              <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={gender} onChange={(e)=>setGender(e.target.value)}>
-      <option value="both">Select gender</option>
-      <option value="male">Male</option>
-      <option value="female">Female</option>
+              <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e)=>setstatus(e.target.value)}>
+      <option value="all">Select Availability</option>
+      <option value="available">Available</option>
+      <option value="Unavailable">Unavailable</option>
     </select>
               </div>
               <input
@@ -266,14 +315,14 @@ export function Drivers() {
                           onClick={updateValue
                             
                           }
-                          className="hover:bg-gray-600 cursor-pointer px-3 py-2 rounded-xl text-white bg-neutral-800"
+                          className="hover:rounded  cursor-pointer px-3 py-2 rounded-3xl text-white bg-neutral-800 transition-all duration-500"
                         >
                           Update
                         </button>
                         <button
                           value={trip.id}
                           onClick={deleteValue}
-                          className="hover:bg-red-700 cursor-pointer px-3 py-2 rounded-xl text-white bg-red-900 ml-2"
+                          className="hover:rounded cursor-pointer px-3 py-2 rounded-3xl text-white bg-red-900 transition-all duration-500"
                         >
                           Delete
                         </button>

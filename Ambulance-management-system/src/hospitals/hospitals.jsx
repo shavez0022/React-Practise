@@ -3,13 +3,20 @@ import axios from "axios";
 import { App,Imagebg } from "../navbar/navbar";
 import { Pagination } from "../pagination/pagination";
 import { Footer } from "../footer/footer";
+import { useNavigate } from "react-router-dom";
 
 export function Hospitals() {
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [SearchTerm, setSearchTerm] = useState("");
-
+const navigate = useNavigate();
+ useEffect(()=>
+  {
+    if(atob(localStorage.getItem("role"))!='Admin'){
+      navigate("/home");
+}
+  });
   useEffect(() => {
     console.log(SearchTerm);
     axios

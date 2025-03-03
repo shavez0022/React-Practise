@@ -3,17 +3,28 @@ import axios from "axios";
 import { App } from "../navbar/navbar";
 import { Pagination } from "../pagination/pagination";
 import { Footer } from "../footer/footer";
+import { useNavigate } from "react-router-dom";
 
 export function Trips() {
   const [trips, setTrips] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [SearchTerm, setSearchTerm] = useState("");
-
+  const [status, setstatus] = useState("all"); // Default value
+  
+const navigate = useNavigate();
+  
+    useEffect(()=>
+     {
+       if(atob(localStorage.getItem("role"))!='Admin'){
+         navigate("/home");
+   }
+     });
+     
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/gettrips_api.php", {
-        params: { currentpage: currentPage, name: SearchTerm },
+        params: { currentpage: currentPage,status:status, name: SearchTerm },
       })
       .then((response) => {
         if (response.data.status === "success") {
@@ -28,7 +39,7 @@ export function Trips() {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [SearchTerm, currentPage]);
+  }, [SearchTerm, currentPage,status]);
 
   return (
     <>
@@ -50,6 +61,11 @@ export function Trips() {
             {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
              <h4 className="text-2xl  font-extrabold text-black">Trip Details</h4>
+             <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e)=>setstatus(e.target.value)}>
+      <option value="all">Select Trips Status</option>
+      <option value="completed">Completed</option>
+      <option value="ongoing">Ongoing</option>
+    </select>
               <input
                 type="text"
                 placeholder="Search..."

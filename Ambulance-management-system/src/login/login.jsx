@@ -57,20 +57,13 @@ export function Login() {
     <>
       <App />
       <div
-  className="relative flex items-center justify-center"
-  style={{
-    backgroundImage: `url("/pics/bgmain7.webp")`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    height: "700px",
-    width: "1466px"
-  }}
+  className="relative flex items-center justify-center w-[1466px] h-[1000px] bg-cover bg-center bg-no-repeat"
+  style={{ backgroundImage: `url("/pics/bgpic1.webp")` }}
 >
+
 
         <ToastContainer />
         <div className="relative z-1 bg-black p-8 rounded-3xl shadow-black shadow-2xl w-96 -mt-65">
-          {" "}
           {message && (
             <div className="relative text-white text-lg bg-red-600 p-4 rounded-md mb-4">
               <span

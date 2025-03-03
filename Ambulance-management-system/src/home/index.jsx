@@ -1,4 +1,3 @@
-import "./home.css";
 import { App} from "../navbar/navbar";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -43,7 +42,7 @@ export function Home() {
               </h4>
               <p className="text-gray-600 mb-4">
                 Ambulance Service in your neighborhood. Hyper Ambulance is
-                India’s largest ambulance service with a whopping 1 Million+``
+                India’s largest ambulance service with a whopping 1 Million+
                 customers. Experience the quickest and most reliable medical
                 assistance right at your doorstep.
               </p>
