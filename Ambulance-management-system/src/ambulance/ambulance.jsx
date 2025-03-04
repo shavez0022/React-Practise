@@ -1,15 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { App,Imagebg } from "../navbar/navbar";
+import { App, Imagebg } from "../navbar/navbar";
 import { Footer } from "../footer/footer";
 import { Pagination } from "../pagination/pagination";
 import { ToastContainer, Slide, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
 
 export function Ambulance() {
   const navigate = useNavigate();
+  const [decodedToken, setDecodedToken] = useState({
+    exp: "",
+    iat: "",
+    iss: "",
+    sub: "",
+  });
+  useEffect(() => {
+    const token = localStorage.getItem("tokken");
+    if (token) {
+      try {
+        const decoded = jwtDecode(atob(token)); // Decode the stored JWT
+        setDecodedToken(decoded);
+        if (decoded.exp < Math.floor(Date.now() / 1000)) {
+          localStorage.removeItem("tokken");
+          localStorage.removeItem("role");
+          localStorage.setItem("toastMessage", 1);
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Invalid Token:", error);
+      }
+    }
+  }, []);
 
+  useEffect(() => {
+    console.log("Updated Decoded Token:", decodedToken.exp);
+    const date = new Date(decodedToken.exp * 1000);
+    console.log(date.toLocaleString());
+  }, [decodedToken]);
 
   const [formData, setFormData] = useState({
     registration_number: "",
@@ -24,59 +53,58 @@ export function Ambulance() {
   const [updateButton, setUpdateButton] = useState();
   const [status, setstatus] = useState("all"); // Default value
 
- useEffect(()=>
-     {
-       if(atob(localStorage.getItem("role"))!='Admin'){
-         navigate("/home");
-   }
-     });
+  useEffect(() => {
+    if (atob(localStorage.getItem("role")) != "Admin") {
+      navigate("/home");
+    }
+  });
 
   useEffect(() => {
     axios
-    .get("http://localhost/project2/api/getambulance_api.php", {
-      params: { currentpage: 1,status:status, name: SearchTerm },
-    })
-    .then((response) => {
-      if (response.data.status === "Success") {
-        setTrips(response.data.data);
-        setCurrentPage(1);
-        setTotalPages(response.data.totalPages);
-      } else {
-        setTrips([]);
-        setTotalPages(1);
-        setCurrentPage(1);
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching data:", error);
-    });
-}, [status]);
+      .get("http://localhost/project2/api/getambulance_api.php", {
+        params: { currentpage: 1, status: status, name: SearchTerm },
+      })
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setTrips(response.data.data);
+          setCurrentPage(1);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+          setCurrentPage(1);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, [status]);
 
   useEffect(() => {
-        axios
-        .get("http://localhost/project2/api/getambulance_api.php", {
-          params: { currentpage: currentPage,status:status, name: SearchTerm },
-        })
-        .then((response) => {
-          if (response.data.status === "Success") {
-            setTrips(response.data.data);
-            setCurrentPage(1);
-            setTotalPages(response.data.totalPages);
-          } else {
-            setTrips([]);
-            setTotalPages(1);
-            setCurrentPage(1);
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        });
+    axios
+      .get("http://localhost/project2/api/getambulance_api.php", {
+        params: { currentpage: currentPage, status: status, name: SearchTerm },
+      })
+      .then((response) => {
+        if (response.data.status === "Success") {
+          setTrips(response.data.data);
+          setCurrentPage(1);
+          setTotalPages(response.data.totalPages);
+        } else {
+          setTrips([]);
+          setTotalPages(1);
+          setCurrentPage(1);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, [SearchTerm]);
 
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/getambulance_api.php", {
-        params: { currentpage: currentPage,status:status ,name: SearchTerm },
+        params: { currentpage: currentPage, status: status, name: SearchTerm },
       })
       .then((response) => {
         if (response.data.status === "Success") {
@@ -101,7 +129,7 @@ export function Ambulance() {
       [name]: value,
     }));
   };
-  
+
   const Submit = (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -224,8 +252,7 @@ export function Ambulance() {
       <App />
       <ToastContainer />
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-                <Imagebg/>
-        
+        <Imagebg />
 
         {/* Main Content */}
         <div className="relative z-10 container mx-auto px-6 py-10">
@@ -235,9 +262,9 @@ export function Ambulance() {
             <div className="w-full flex justify-between items-center mb-4">
               <div className="flex items-center gap-1">
                 <span className="text-2xl font-extrabold text-black mr-4">
-                  Ambulance Details  
+                  Ambulance Details
                 </span>
-               
+
                 <button
                   onClick={() => {
                     setIsOpen(true); // Open the modal or form
@@ -252,13 +279,18 @@ export function Ambulance() {
                 >
                   Add More &#43;
                 </button>
-                <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e)=>setstatus(e.target.value)}>
-      <option value="all">Select Availability</option>
-      <option value="available">Available</option>
-      <option value="Unavailable">Unavailable</option>
-    </select>
+                <select
+                  name="gender"
+                  className="bg-gray-900 text-white px-1 py-1.5 rounded-xl"
+                  value={status}
+                  onChange={(e) => setstatus(e.target.value)}
+                >
+                  <option value="all">Select Availability</option>
+                  <option value="available">Available</option>
+                  <option value="Unavailable">Unavailable</option>
+                </select>
               </div>
-              
+
               <input
                 type="text"
                 placeholder="Search..."
@@ -308,7 +340,7 @@ export function Ambulance() {
                           onClick={(e) => updateValue(e)}
                           className="hover:rounded  cursor-pointer px-3 py-2 rounded-3xl text-white bg-neutral-800 transition-all duration-500"
                         >
-                          Update  
+                          Update
                         </button>
                         <button
                           value={trip.id}

@@ -21,9 +21,9 @@ export function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem("tokken")) {
-      navigate("/home");
-    }
+    // if (localStorage.getItem("tokken")) {
+    //   navigate("/home");
+    // }
     if (localStorage.getItem("toastMessage")) {
       toast.success("Logout Successful...", {
         transition: Zoom,
