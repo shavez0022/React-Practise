@@ -11,20 +11,19 @@ export function Trips() {
   const [totalPages, setTotalPages] = useState(1);
   const [SearchTerm, setSearchTerm] = useState("");
   const [status, setstatus] = useState("all"); // Default value
-  
-const navigate = useNavigate();
-  
-    useEffect(()=>
-     {
-       if(atob(localStorage.getItem("role"))!='Admin'){
-         navigate("/home");
-   }
-     });
-     
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (atob(localStorage.getItem("role")) != 'Admin') {
+      navigate("/home");
+    }
+  });
+
   useEffect(() => {
     axios
       .get("http://localhost/project2/api/gettrips_api.php", {
-        params: { currentpage: currentPage,status:status, name: SearchTerm },
+        params: { currentpage: currentPage, status: status, name: SearchTerm },
       })
       .then((response) => {
         if (response.data.status === "success") {
@@ -39,13 +38,12 @@ const navigate = useNavigate();
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [SearchTerm, currentPage,status]);
+  }, [SearchTerm, currentPage, status]);
 
   return (
     <>
       <App />
       <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src="/pics/bgmain.webp"
@@ -53,19 +51,15 @@ const navigate = useNavigate();
             className="w-full h-full object-cover opacity-40"
           />
         </div>
-
-        {/* Main Content */}
         <div className="relative z-10 container mx-auto px-6 py-10">
-          {/* Table */}
           <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-6">
-            {/* Title Section */}
             <div className="w-full flex justify-between items-center mb-4">
-             <h4 className="text-2xl  font-extrabold text-black">Trip Details</h4>
-             <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e)=>setstatus(e.target.value)}>
-      <option value="all">Select Trips Status</option>
-      <option value="completed">Completed</option>
-      <option value="ongoing">Ongoing</option>
-    </select>
+              <h4 className="text-2xl  font-extrabold text-black">Trip Details</h4>
+              <select name="gender" className="bg-gray-900 text-white px-1 py-1.5 rounded-xl" value={status} onChange={(e) => setstatus(e.target.value)}>
+                <option value="all">Select Trips Status</option>
+                <option value="completed">Completed</option>
+                <option value="ongoing">Ongoing</option>
+              </select>
               <input
                 type="text"
                 placeholder="Search..."
@@ -114,8 +108,6 @@ const navigate = useNavigate();
               </tbody>
             </table>
           </div>
-
-          {/* Pagination */}
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}

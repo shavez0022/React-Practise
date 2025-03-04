@@ -127,7 +127,7 @@ export function Login() {
                 className="absolute right-10 text-gray-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
 
