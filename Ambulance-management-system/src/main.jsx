@@ -12,7 +12,7 @@ import { Hospitals } from "./hospitals/hospitals";
 
 createRoot(document.getElementById("root")).render(
   <Router>
-          <Routes>
+        <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/about" element={<AboutUs />} />
@@ -23,6 +23,5 @@ createRoot(document.getElementById("root")).render(
           <Route path="/drivers" element={<Drivers />} />
           <Route path="/hospital" element={<Hospitals />} />
         </Routes>
-
   </Router>
 );
