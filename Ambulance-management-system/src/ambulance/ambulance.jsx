@@ -246,7 +246,6 @@ export function Ambulance() {
         });
     }
   }
-
   return (
     <>
       <App />
@@ -315,14 +314,10 @@ export function Ambulance() {
                   trips.map((trip, index) => (
                     <tr
                       key={trip.id}
-                      className="border-b transition duration-200 hover:bg-gray-100"
-                    >
+                      className="border-b transition duration-200 hover:bg-gray-100">
                       <td className="py-4 px-4 ">{index + 1}</td>
-
                       <td className="py-4 px-4 ">{trip.registration_number}</td>
-
                       <td className="py-4 px-4 ">{trip.ambulance_type}</td>
-
                       <td className="py-4 px-4 ">
                         {trip.ambulance_status == 3
                           ? "Grounded"

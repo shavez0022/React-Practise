@@ -57,7 +57,7 @@ export function Login() {
     <>
       <App />
       <div
-  className="relative flex items-center justify-center w-[1466px] h-[1000px] bg-cover bg-center bg-no-repeat"
+  className="relative flex items-center justify-center w-[1680px] h-[1000px] bg-cover bg-center bg-no-repeat"
   style={{ backgroundImage: `url("/pics/bgpic1.webp")` }}
 >
 
